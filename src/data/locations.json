@@ -1,14 +1,32 @@
 {
   "locations": [
     {
-      "name": "Campus Center",
-      "lat": 21.298486801858726,
-      "lng": -157.8186636618029
+      "category": "Buildings",
+      "places": [
+        {
+          "name": "Campus Center",
+          "lat": 21.298486801858726,
+          "lng": -157.8186636618029,
+          "info": "The Campus Center is a hub for student activities and services, providing a variety of resources and spaces for students."
+        },
+        {
+          "name": "POST",
+          "lat": 21.300123456789,
+          "lng": -157.815987654321,
+          "info": "POST (Pacific Ocean Science and Technology) building houses research facilities and classrooms for marine science and technology programs."
+        }
+      ]
     },
     {
-      "name": "POST",
-      "lat": 21.297579510813865,
-      "lng": -157.8164376599566
+      "category": "Places to Eat",
+      "places": [
+        {
+          "name": "Bale",
+          "lat": 21.296774,
+          "lng": -157.817355,
+          "info": "Bale offers delicious Vietnamese food including banh mi and pho. A popular spot for students and faculty."
+        }
+      ]
     }
   ]
 }

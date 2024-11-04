@@ -10,6 +10,7 @@ const containerStyle = {
   height: "400px",
 };
 
+// Set an initial center that doesn't change
 const initialCenter = {
   lat: 21.299917358489935,
   lng: -157.81480872274682,
@@ -33,9 +34,11 @@ const MapWithDropdown: React.FC = () => {
 
   return (
     <Row>
+      {/* Column for the Map */}
       <Col md={6}>
         <LoadScript googleMapsApiKey={GOOGLE_MAPS_API_KEY}>
           <GoogleMap mapContainerStyle={containerStyle} center={initialCenter} zoom={15}>
+            {/* Marker updates its position but map center remains the same */}
             <Marker position={markerPosition} />
           </GoogleMap>
         </LoadScript>
@@ -60,52 +63,45 @@ const MapWithDropdown: React.FC = () => {
               <p>{selectedLocation.info}</p>
             </div>
           ) : (
-            // Default dropdown if no location is selected
+            // Default dropdowns if no location is selected
             <>
               <p>Select a location to display on the map:</p>
+
+              {/* Dropdown for Buildings */}
               <Dropdown>
                 <Dropdown.Toggle as="span" style={{ cursor: "pointer", color: "#333", textDecoration: "underline" }} id="dropdown-basic">
                   Buildings
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
-                  {locationData.locations.map((location, index) => (
-                    <Dropdown.Item
-                      key={index}
-                      onClick={() => handleShowLocation(location)}
-                    >
-                      {location.name}
-                    </Dropdown.Item>
-                  ))}
+                  {locationData.locations
+                    .find((category) => category.category === "Buildings")
+                    ?.places.map((location, index) => (
+                      <Dropdown.Item
+                        key={index}
+                        onClick={() => handleShowLocation(location)}
+                      >
+                        {location.name}
+                      </Dropdown.Item>
+                    ))}
                 </Dropdown.Menu>
               </Dropdown>
-              <Dropdown>
-                <Dropdown.Toggle as="span" style={{ cursor: "pointer", color: "#333", textDecoration: "underline" }} id="dropdown-basic">
+
+              {/* Dropdown for Places to Eat */}
+              <Dropdown className="mt-3">
+                <Dropdown.Toggle as="span" style={{ cursor: "pointer", color: "#333", textDecoration: "underline" }} id="dropdown-eat">
                   Places to Eat
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
-                  {locationData.locations.map((location, index) => (
-                    <Dropdown.Item
-                      key={index}
-                      onClick={() => handleShowLocation(location)}
-                    >
-                      {location.name}
-                    </Dropdown.Item>
-                  ))}
-                </Dropdown.Menu>
-              </Dropdown>
-              <Dropdown>
-                <Dropdown.Toggle as="span" style={{ cursor: "pointer", color: "#333", textDecoration: "underline" }} id="dropdown-basic">
-                  Transportation
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
-                  {locationData.locations.map((location, index) => (
-                    <Dropdown.Item
-                      key={index}
-                      onClick={() => handleShowLocation(location)}
-                    >
-                      {location.name}
-                    </Dropdown.Item>
-                  ))}
+                  {locationData.locations
+                    .find((category) => category.category === "Places to Eat")
+                    ?.places.map((location, index) => (
+                      <Dropdown.Item
+                        key={index}
+                        onClick={() => handleShowLocation(location)}
+                      >
+                        {location.name}
+                      </Dropdown.Item>
+                    ))}
                 </Dropdown.Menu>
               </Dropdown>
             </>
