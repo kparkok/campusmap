@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 import { Row, Col, Button } from 'react-bootstrap';
+import locationData from '../data/locations.json';
 
-const GOOGLE_MAPS_API_KEY = "AIzaSyDgC58JNcm8nI5WkV4s_OzjwPffKl288AI"
+const GOOGLE_MAPS_API_KEY = "AIzaSyDgC58JNcm8nI5WkV4s_OzjwPffKl288AI";
 
 const containerStyle = {
   width: "100%",
@@ -15,19 +16,13 @@ const initialCenter = {
   lng: -157.81480872274682,
 };
 
-// Target location to display on button click
-const targetLocation = {
-  lat: 21.298486801858726,
-  lng: -157.8186636618029,
-};
-
-const MapWithButton: React.FC = () => {
+const MapWithMultipleLocations: React.FC = () => {
   // State to store the map's current center
   const [mapCenter, setMapCenter] = useState(initialCenter);
 
-  // Handler to update the map center to the target location
-  const handleShowLocation = () => {
-    setMapCenter(targetLocation);
+  // Handler to update the map center to a specific location
+  const handleShowLocation = (lat: number, lng: number) => {
+    setMapCenter({ lat, lng });
   };
 
   return (
@@ -35,25 +30,32 @@ const MapWithButton: React.FC = () => {
       {/* Column for the Map */}
       <Col md={6}>
         <LoadScript googleMapsApiKey={GOOGLE_MAPS_API_KEY}>
-          <GoogleMap mapContainerStyle={containerStyle} center={mapCenter} zoom={15}>
+          <GoogleMap mapContainerStyle={containerStyle} center={mapCenter} zoom={16}>
             <Marker position={mapCenter} />
           </GoogleMap>
         </LoadScript>
       </Col>
 
-      {/* Column for additional content and button */}
+      {/* Column for additional content and buttons */}
       <Col md={6}>
         <div style={{ padding: "20px" }}>
           <h2>Campus Information</h2>
-          <p>Click the button below to display the location on the map:</p>
+          <p>Select a location to display on the map:</p>
           
-          <Button onClick={handleShowLocation} className="m-1">
-            Show Location
-          </Button>
+          {/* Render a button for each location */}
+          {locationData.locations.map((location, index) => (
+            <Button
+              key={index}
+              onClick={() => handleShowLocation(location.lat, location.lng)}
+              className="m-1"
+            >
+              {location.name}
+            </Button>
+          ))}
         </div>
       </Col>
     </Row>
   );
 };
 
-export default MapWithButton;
+export default MapWithMultipleLocations;
